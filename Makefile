@@ -66,7 +66,7 @@ lib:
 	$(MAKE) -C $(OPENCM3_DIR) DEVICE=$(DEVICE) TARGETS=stm32/$(DEV_FAMILYCODE) -j `nproc`
 
 clean :
-	@rm *.bin *.hex *.elf *.o *.ld
+	@rm *.bin *.hex *.elf *.o *.ld *~
 
 ultraclean:
 	$(MAKE) -C $(OPENCM3_DIR) clean
@@ -82,8 +82,7 @@ $(DEV_LDFILE):
 	$(OBJCOPY) -Oihex $(PROJECT).elf $(PROJECT).hex
 
 $(PROJECT).elf : lib $(PROJECT).o $(DEV_LDFILE)
-	$(CC) $(C_FLAGS) $(INC_FLAGS) -c -o libLHP_UART.o libLHP_UART.c 
-	$(CC) $(C_FLAGS) -o $(PROJECT).elf $(PROJECT).o libLHP_UART.o $(LD_FLAGS)
+	$(CC) $(C_FLAGS) -o $(PROJECT).elf $(PROJECT).o $(LD_FLAGS)
 
 $(PROJECT).o : $(PROJECT).c
 	$(CC) $(C_FLAGS) $(INC_FLAGS) -c -o $(PROJECT).o $(PROJECT).c
